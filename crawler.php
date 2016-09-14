@@ -26,7 +26,7 @@ function get_link1($target_url){
         }else if(substr($link->href,0,1)=='/'){
             $link->href=''.$base_url.$link->href;
         }
-        echo ("<li>$link->href</li>");
+        echo ("<li><a href='$link->href'>$link->href</a></li>");
     }
 }
 if(isset($_REQUEST["url"])){
