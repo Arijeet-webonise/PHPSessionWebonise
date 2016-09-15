@@ -4,11 +4,10 @@
 	$vowel=array('A','E','I','O','U');
 	if(isset($_REQUEST['tries'])){
 		$tries=$_REQUEST['tries'];
-		if(1==$tries){
+		if(2==$tries){
 			ob_start();
-		    header('Location: gameover.php');
+		    header('refresh:5;url=gameover.php');
 		    ob_end_flush();
-		    die();
 		}
 	}else{
 		$tries=7;
@@ -53,7 +52,7 @@
 	<div class="well" id="Text"><?= implode(' ',$textarray) ?></div>
 	<div class="col-sm-6">
 		<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
-			<input type="text" name="letter">
+			<input type="text" name="letter" <?php if($tries==1){?> disabled <?php } ?>>
 			<input type="hidden" name="tries" value="<?php echo $tries; ?>">
 		</form>
 	</div>
