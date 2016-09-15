@@ -3,16 +3,19 @@
 	/**
 	* 
 	*/
-	$text='LEGEND';
 	$vowel=array('A','E','I','O','U');
+	$try="tries";
+	$text='LEGEND';	
 	$sample=array();
 	class HangMan
 	{
 		public $textarray=NULL;
 		private $text;
 		private $vowel;
+		public $tries;
 		public $sample;
-		function HangMan(){		
+		function HangMan(){	
+			// $text='LEGEND';	
 		}
 
 		function counttries(){
@@ -25,10 +28,12 @@
 			    header('refresh:5;url=gameover.php');
 			    ob_end_flush();
 			}
+			$try="tries";
 			return $tries;
 		}
 
 		function check($tries,$text,$vowel,$sample){
+			$try="tries";
 			$t=array('text'=>$sample,'tries'=>$tries);
 			for ($i=0;$i<strlen ($text);$i++) {
 				array_push($sample,$text[$i]);
@@ -47,7 +52,7 @@
 			}
 
 			if(isset($_REQUEST['letter'])){
-				$letter=$_REQUEST['letter'];
+				$letter=strtoupper($_REQUEST['letter']);
 				if(in_array($letter,$sample)){
 					foreach ($sample as $key => $value) {
 						if($value==$letter){
@@ -62,8 +67,8 @@
 			if(!in_array('_',$textarray)){
 				header('refresh:5;url=victory.php');
 			}
-			$t['tries']=$tries;
 			$t['text']=$textarray;
+			$t['tries']=$tries;
 			return $t;
 		}
 	}
@@ -88,7 +93,8 @@
 	<div class="col-sm-6">
 		<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
 			<input type="text" name="letter" <?php if($tries==1){?> disabled <?php } ?>>
-			<input type="hidden" name="tries" value="<?php echo $tries; ?>">
+			<input type="hidden" name="tries" value="<?php $try="tries";
+			 echo $tries; ?>">
 		</form>
 	</div>
 	<div class="col-sm-6" id="hangman"><img src="Assets/try<?php if($tries>0){echo 8-$tries;}else{echo 7;} ?>.gif"></div>
