@@ -71,12 +71,25 @@
       )
     );
     $row=0;
-    $a = 'Created,Organisation Name,Organisation ID,CFA Name,CFA ID,RFA Name,JR ID,JR Name<br>';
+    $a = 'Created,Organisation Name,Organisation ID,CFA Name,CFA ID,RFA Name,JR ID,JR Name\n';
     foreach ($organisationDetails as $key => $organisationDetail) {
     	foreach ($organisationDetail['cfa'] as $ckey => $cfa) {
     		foreach ($organisationDetail['jobRole'] as $jkey => $jobRole) {
-    	    	$a .= $jobRole['created'].','.$organisationDetail['name'].','.$key.','.$cfa['name'].','.$ckey.','.'-'.','.$jkey.','.$jobRole['name'].'<br>';
+    	    	$a .= $jobRole['created'].','.$organisationDetail['name'].','.$key.','.$cfa['name'].','.$ckey.','.'-'.','.$jkey.','.$jobRole['name'].'\n';
     		}
     	}
     }
+    $filename = "newfile.csv";
+	$file = fopen( $filename, "w" );
+   
+	if( $file == false ) {
+		echo ( "Error in opening new file" );
+		exit();
+	}
+	fwrite( $file, $a );
+	fclose( $file );
+	  echo ( "File size : $filesize bytes" );
+         echo ( "$filetext" );
+         echo("file name: $filename");
+      ?>
 ?>
