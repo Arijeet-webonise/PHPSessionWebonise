@@ -1,4 +1,9 @@
 <?php 
+/*
+	Seperates extension of a file
+	Parameter: string(Name of File)
+	Return: string(extention)
+*/
 function getextension($text){
 	for ($i=strlen($text)-1; $i >= 0; $i--) { 
 		if($text[$i]=='.'){

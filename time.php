@@ -1,4 +1,9 @@
 <?php
+	/*
+		Convert time from IST to GMT
+		Parameter:time string in format(yyyy:mm:dd)
+		Return:string in GMT
+	*/
 	function getGMT($timestr){
 		$time=explode(':', $timestr);
 		$time[1]-=30;
@@ -12,6 +17,11 @@
 		}
 		return 'GMT:'.$time[0].':'.$time[1].':'.$time[2];
 	}
+	/*
+		Convert time from IST to Centern American Time
+		Parameter:time string in format(yyyy:mm:dd)
+		Return:string in Centern American Time
+	*/
 	function getUSC($timestr){
 		$time=explode(':', $timestr);
 		$time[1]-=30;
