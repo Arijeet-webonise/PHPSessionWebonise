@@ -88,8 +88,6 @@
 	}
 	fwrite( $file, $a );
 	fclose( $file );
-	  echo ( "File size : $filesize bytes" );
-         echo ( "$filetext" );
-         echo("file name: $filename");
-      ?>
+        echo("file name: $filename");
+      
 ?>
