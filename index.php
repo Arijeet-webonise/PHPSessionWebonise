@@ -22,7 +22,7 @@ function getextension($text){
 <!DOCTYPE html>
 <html>
 <head>
-	<title>SESSION 4</title>
+	<title>File Extension</title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -34,8 +34,10 @@ function getextension($text){
 		    <input type="file" name="fileToUpload" id="fileToUpload">
 		    <input type="submit" value="Upload Image" name="submit">
 		</form>
+		<?php if(isset($_FILES['fileToUpload'])){?>
 		<div class="row container"><?= '<strong>Extention(inbuild):</strong>'.$FileType ?></div>
 		<div class="row container"><?= '<strong>Extention:</strong>'.$ext1 ?></div>
+		<?php } ?>
 	</div>
 </body>
 </html>
