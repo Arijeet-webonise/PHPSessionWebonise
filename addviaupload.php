@@ -9,6 +9,8 @@
 </head>
 <body>
 	<?php
+
+
 	$target_dir = "books/";
 		require_once("books.php");
 // var_dump($_FILES);
@@ -23,13 +25,15 @@
 				}
 			}
 			if($FileType != "txt") {
-			    die( "Sorry, only txt files are allowed.");
+			    trigger_error("Sorry, only txt files are allowed.",E_USER_ERROR);
+			    die();
 			}
 			$book=new Books(rand(),$name,null);
 			if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
 		        echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded.";
 		    } else {
-		        die( "Sorry, there was an error uploading your file.");
+		        trigger_error("Sorry, there was an error uploading your file.",E_USER_ERROR);
+		        die();
 		    }
 			var_dump($book);
 			$book->uploadbook();

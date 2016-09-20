@@ -1,6 +1,10 @@
 <?php
 
-require_once("sql.php");
+function myException($errno, $errstr) {
+   "<b>Error:</b> [$errno] $errstr<br>";
+}
+
+set_error_handler('myException',E_USER_ERROR);
 
 /**
 * Book Class
@@ -84,7 +88,7 @@ class Books
 		Save book to database
 	*/
 	function savebook(){
-		$myfile = fopen('books.txt', "r") or die("Unable to open file!");
+		$myfile = fopen('books.txt', "r") or trigger_error("Unable to open file!",E_USER_ERROR);
 		$json=json_decode(fread($myfile,filesize("books.txt")));
 		fclose($myfile);
 
@@ -92,11 +96,11 @@ class Books
 		array_push($json->books, $a);
 		
 		$name="books/".$this->bname.".txt";
-		$myfile = fopen($name, "w") or die("Unable to open file!");
+		$myfile = fopen($name, "w") or trigger_error("Unable to open file!",E_USER_ERROR);
 		fwrite($myfile, $this->content);
 		fclose($myfile);
 
-		$myfile = fopen('books.txt', "w") or die("Unable to open file!");
+		$myfile = fopen('books.txt', "w") or trigger_error("Unable to open file!",E_USER_ERROR);
 			fwrite($myfile, json_encode($json));
 		fclose($myfile);
 	}
@@ -107,14 +111,14 @@ class Books
 		Save book to database
 	*/
 	function uploadbook(){
-		$myfile = fopen('books.txt', "r") or die("Unable to open file!");
+		$myfile = fopen('books.txt', "r") or trigger_error("Unable to open file!",E_USER_ERROR);
 		$json=json_decode(fread($myfile,filesize("books.txt")));
 		fclose($myfile);
 
 		$a=(object)array('id'=>$this->id,'name'=>$this->bname,'author'=>$this->author);
 		array_push($json->books, $a);
 
-		$myfile = fopen('books.txt', "w") or die("Unable to open file!");
+		$myfile = fopen('books.txt', "w") or trigger_error("Unable to open file!",E_USER_ERROR);
 			fwrite($myfile, json_encode($json));
 		fclose($myfile);
 	}
@@ -126,11 +130,11 @@ class Books
 	*/
 	function editbook(){
 		$name="books/".$this->bname.".txt";
-		$myfile = fopen($name, "w") or die("Unable to open file!");
+		$myfile = fopen($name, "w") or trigger_error("Unable to open file!",E_USER_ERROR);
 		fwrite($myfile, $this->content);
 		fclose($myfile);
 
-		$myfile = fopen('books.txt', "r") or die("Unable to open file!");
+		$myfile = fopen('books.txt', "r") or trigger_error("Unable to open file!",E_USER_ERROR);
 		$json=json_decode(fread($myfile,filesize("books.txt")));
 			foreach ($json->books as $book) {
 				if($book->id==$this->id){	
@@ -140,7 +144,7 @@ class Books
 				}
 			}
 		fclose($myfile);
-		$myfile = fopen('books.txt', "w") or die("Unable to open file!");
+		$myfile = fopen('books.txt', "w") or trigger_error("Unable to open file!",E_USER_ERROR);
 		fwrite($myfile, json_encode($json));
 		fclose($myfile);
 	}
@@ -153,7 +157,7 @@ class Books
 */
 function getbooks(){
 	$books = array();
-	$myfile = fopen("books.txt", "r") or die("Unable to open file!");
+	$myfile = fopen("books.txt", "r") or trigger_error("Unable to open file!",E_USER_ERROR);
 	 $bookstr=(json_decode(fread($myfile,filesize("books.txt"))));
 	// while($line=fgets($myfile)){
 	// 	$bookstr=json_decode($line);
@@ -161,7 +165,7 @@ function getbooks(){
 	 	# code...
 	 	// var_dump($book);
 		$name="books/".$book->name.".txt";
-		$myfiles = fopen($name, "r") or die("Unable to open file!");
+		$myfiles = fopen($name, "r") or trigger_error("Unable to open file!",E_USER_ERROR);
 			$content=fread($myfiles,filesize($name));
 			$book=new Books($book->id,$book->name,$book->author);
 			$book->setcontent($content);
