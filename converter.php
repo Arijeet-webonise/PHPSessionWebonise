@@ -4,7 +4,7 @@
 */
 	function isempty($str){
 		if($str==null){
-			return array('name'=>'-','created'=>'-');
+			return array(array('name'=>'-','created'=>'-'));
 		}
 		return $str;
 	}
@@ -77,67 +77,47 @@
     {
     	private $oname;
     	private $oid;
-    	// public $jobRole;
+    	public $jobRole;
     	// public $jkey;
     	public $cfa;
-    	private $ckey;
+    	// private $ckey;
 
-    	function rowobj($arr,$id,$cfa,$ckey){
+    	function Rowobj($arr,$id){
     		$this->oid=$id;
     		$this->oname=isempty($arr['name']);
-    		$this->cfa=isempty($cfa);
-    		$this->ckey=isempty($ckey);
-    		// $this->jobRole=isempty($jobRole);
+    		$this->cfa=isempty($arr['cfa']);
+    		$this->jobRole=isempty($arr['jobRole']);
     		// $this->jobRole=isempty($jkey);
     	}
 
-    	function getcfa(){
-			$cfa=array();
-    		foreach ($this->cfa as $key => $value) {
-    			array_push($cfa, $key.','.$value['name']);
-    		}
-    		return $cfa;
-    	}
-
-    	function getjobRole(){
-			$jobRole=array();
-    		foreach ($this->jobRole as $key => $value) {
-    			array_push($jobRole, $key.','.$value['name']);
-    		}
-    		return $jobRole;
-    	}
+    	function getlastterm(){
+        $str = array();
+        foreach ($this->jobRole as $jkey => $jvalue) {
+          $jstr=($jkey.' , '.$jvalue['name']);
+          foreach ($this->cfa as $ckey => $cvalue) {
+              $cstr=$cvalue['name'].' , '.$ckey;
+              array_push($str, array('str' => $cstr.' , - , '.$jstr, 'created' => $jvalue['created']));
+          }
+        }
+        return $str;
+      }
 
     	function getcreated($arr){
     		return $arr['created'];
     	}
     }
     $row=0;
-    $a = 'Created,Organisation Name,Organisation ID,CFA Name,CFA ID,RFA Name,JR ID,JR Name
+    $a = 'Created,Organisation Name,Organisation ID,CFA Name,CFA ID,RFA Name,JR ID,JR Name<br>
 ';
-
-	$rowobj=array();
-    foreach ($organisationDetails as $key => $organisationDetail) {
-    	if($organisationDetail['cfa']!=null){
-    		foreach ($organisationDetail['cfa'] as $ckey => $value) {
-    			if($organisationDetail['jobRole']!=null)
-    			array_push($rowobj, new RowObj($organisationDetail,$key,$value,$ckey));
-    		}
-    	}else{
-
-    	}
-		// array_push($rowobj, new RowObj($organisationDetail,$key));
-    }
-    var_dump($rowobj);
-    
- //    $filename = "newfile.csv";
-	// $file = fopen( $filename, "w" );
-   
-	// if( $file == false ) {
-	// 	echo ( "Error in opening new file" );
-	// 	exit();
-	// }
-	// fwrite( $file, $a );
-	// fclose( $file );
- //        echo("file name: $filename");
-      
+$rowobjs=array();
+foreach ($organisationDetails as $okey => $value) {
+  $rowobj=new RowObj($value,$okey);
+  array_push($rowobjs, $rowobj);
+  $str=($rowobj->getlastterm());
+  // var_dump($str);
+  foreach ($str as $svalue) {
+    $a.=($svalue['created'].' , '.$value['name'].' , '.$okey.' , '.$svalue['str'].'<br>');
+  }
+}
+echo $a;
 ?>
