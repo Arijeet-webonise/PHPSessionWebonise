@@ -10,8 +10,15 @@
 <body>
 	<?php
 
+function checkfile($file){
+	if(file_exists($file)){
+		throw new Exception("File Already Excess<br>", 1);
+	}
+	return true;
+}
 
 	$target_dir = "books/";
+	$upload=true;
 		require_once("books.php");
 // var_dump($_FILES);
 		if(isset($_FILES['file'])){
@@ -28,16 +35,34 @@
 			    trigger_error("Sorry, only txt files are allowed.",E_USER_ERROR);
 			    die();
 			}
+
+			try{
+				checkfile($target_file);
+			}
+			catch(Exception $e) {
+				echo 'Message: ' .$e->getMessage();
+				$upload=false;
+			}
+
 			$book=new Books(rand(),$name,null);
+			$myfiles = fopen($target_file, "r") or trigger_error("Unable to open file!",E_USER_ERROR);
+			$book->setcontent(fread($myfiles,filesize($target_file)));
+			// $book->setcontent();
 			if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
 		        echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded.";
 		    } else {
 		        trigger_error("Sorry, there was an error uploading your file.",E_USER_ERROR);
 		        die();
 		    }
-			var_dump($book);
-			$book->uploadbook();
+			// var_dump($book);
+			if($upload)
+				$book->uploadbook();
 		}
 	?>
+	<h1><?= $book->getbname() ?></h1>
+	<h4>By <?= $book->getauthor() ?></h4>
+	<div class="well">
+		<?= $book->getcontent() ?>
+	</div>
 </body>
 </html>
