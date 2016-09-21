@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
-	<form action="login.php" method="post">
+	<form action="loginpsql.php" method="post">
 		<div class="form-group">
 			<label for="user">UserName:</label>
 			<input type="text" class="form-control" name="user" id="user">
