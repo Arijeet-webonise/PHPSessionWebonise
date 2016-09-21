@@ -8,6 +8,35 @@
 </head>
 <body>
 <div class="container">
+<h2>Mysql</h2>
+	<form action="login.php" method="post">
+		<div class="form-group">
+			<label for="user">UserName:</label>
+			<input type="text" class="form-control" name="user" id="user">
+		</div>
+		<div class="form-group">
+			<label for="pwd">Password:</label>
+			<input type="password" class="form-control" name="pwd" id="pwd">
+		</div>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+</div>
+<div class="container">
+<h2>sqlite</h2>
+	<form action="loginsqlite.php" method="post">
+		<div class="form-group">
+			<label for="user">UserName:</label>
+			<input type="text" class="form-control" name="user" id="user">
+		</div>
+		<div class="form-group">
+			<label for="pwd">Password:</label>
+			<input type="password" class="form-control" name="pwd" id="pwd">
+		</div>
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+</div>
+<div class="container">
+<h2>Psql</h2>
 	<form action="loginpsql.php" method="post">
 		<div class="form-group">
 			<label for="user">UserName:</label>
