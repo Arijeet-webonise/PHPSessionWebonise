@@ -1,8 +1,15 @@
 <?php
+	interface DBInterface{
+		public function connect($db,$pass,$user,$host);
+		public function login($user,$pass);
+		public function register($user,$pass,$email);
+		public function close();
+	}
+
 	/**
 	* 
 	*/
-	class DBClass
+	class MySqlDB implements DBInterface
 	{
 		private $servername;
 		private $username;
@@ -10,35 +17,94 @@
 		private $dbname;
 		private $conn;
 
-		function DBClass($db,$pass){
-			$this->servername='localhost';
-			$this->username='root';
+		function connect($db,$pass,$user,$host='localhost'){
+			$this->servername=$host;
+			$this->username=$user;
 			$this->password=$pass;
 			$this->dbname=$db;
 			// Create connection
 			$this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 			// Check connection
 			if ($this->conn->connect_error) {
-			    die("Connection failed: " . $conn->connect_error);
+			    throw new Exception("Connection failed: " . $conn->connect_error, 1);
 			}	
 		}
-		function getconn(){
-			return $this->conn;
+		function register($user,$pass,$email){
+			$sql = "INSERT INTO users (User, password, email) VALUES ('".$user."', md5('".$pass."'), '".$email."');";
+	
+			if ($this->conn->query($sql) === TRUE) {
+			    return true;
+			} else {
+			    throw new Exception($this->conn->error, 1);
+		      	return false;
+			}
+		}
+		function login($user,$pass){
+			$sql = "SELECT User FROM users WHERE User='$user' AND password=md5('$pass');";
+	
+			if ($this->conn->query($sql) === TRUE) {
+				setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+			    return true;
+			} else {
+			    throw new Exception($this->conn->error, 1);
+			    return false;
+			}
+		}
+		function close(){
+			$this->conn->close();
 		}
 	}
 
-	 class MyDB extends SQLite3
+	class MyDB extends SQLite3 
    {
-      function __construct()
+      function __construct($db)
       {
-         $this->open('C:\sqlite\testDB.db');
+         $this->open($db);
       }
+   }
+
+   /**
+   * 
+   */
+   class SqlLiteDB implements DBInterface
+   {
+   		private $db;
+   		function connect($db1,$pass=null,$user=null,$host=null){
+   			$this->db=new MyDB($db1);
+		   	if(!$this->db){
+		    	throw new Exception($this->db->lastErrorMsg(), 1);
+		    }
+   		}
+   		function register($user,$pass,$email){
+			$sql="INSERT INTO users (id,user,password,email) VALUES (".rand().", '".$user."', '".$pass."', '".$email."');";
+		  	$ret = $this->db->exec($sql);
+		   if(!$ret){
+		   		throw new Exception($this->db->lastErrorMsg(), 1);
+		      	return false;
+		   } else {
+		      return true;
+		   }
+		}
+		function login($user,$pass){
+			$sql="SELECT user FROM users WHERE user='".$user."' AND password='".$pass."'";
+			$ret = $this->db->query($sql);
+			// var_dump($ret->fetchArray(SQLITE3_ASSOC));
+			if ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
+			    setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+			    return $user;
+			} else {
+			    return false;
+			}
+		}
+		function close(){
+			$this->db->close();
+		}
    }
 	
 	/**
 	* 
 	*/
-	class psql
+	class PSql implements DBInterface
 	{
 		private $host;
 	   	private $port;       
@@ -46,17 +112,43 @@
 	   	private $credentials;
 	   	private $pdb;
 
-		function getdb(){
-			$host        = "host=127.0.0.1";
-		   	$port        = "port=5432";
-		   	$dbname      = "dbname=testdb";
-		   	$credentials = "user=postgres password=1902Anchit1@3";
+		function connect($db="dbname=testdb",$pass="1902Anchit1@3",$user="postgres",$host="127.0.0.1"){
+			$this->host        = 'host='.$host;
+		   	$this->port        = "port=5432";
+		   	$this->dbname      = $db;
+		   	$this->credentials = "user=$user password=$pass";
 
-		   	$pdb = pg_connect( "$host $port $dbname $credentials"  );
-		   	if(!$pdb){
-		      	die ("Error : Unable to open database\n");
+		   	$this->pdb = pg_connect( "$this->host $this->port $this->dbname $this->credentials"  );
+		   	if(!$this->pdb){
+		   		throw new Exception("Unable to open database\n", 1);
 		   	} 
-			return $pdb;
+		}
+   		function register($user,$pass,$email){
+   			$sql="INSERT INTO users (id,name,password,email) VALUES (".rand().", '".$user."', '".$pass."', '".$email."');";
+			$ret = pg_query($this->pdb, $sql);
+		   	if(!$ret){
+		   		throw new Exception(pg_last_error($this->pdb), 1);
+		   		return false;
+		   	} else {
+		    	return true;
+		   	}
+   		}
+   		function login($user,$pass){
+			$sql = "SELECT User FROM users WHERE User='$user' AND password=md5('$pass');";
+	
+			$ret = pg_query($this->pdb, $sql);
+			if(!$ret){
+				throw new Exception(pg_last_error($this->pdb), 1);
+				return false;
+			} 
+			while($row = pg_fetch_row($ret)){
+				setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+		   		return true;
+		   }
+		   return false;
+		}
+		function close(){
+			pg_close($this->pdb);
 		}
 	}
 ?>
