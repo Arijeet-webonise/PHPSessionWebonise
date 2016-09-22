@@ -158,6 +158,7 @@
 				setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
 		   		return true;
 		   }
+		   throw new Exception("User Not Found", 1);
 		   return false;
 		}
 		function close(){
