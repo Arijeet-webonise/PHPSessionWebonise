@@ -1,13 +1,26 @@
 <?php
 	interface DBInterface{
+		/*Connects to DataBase
+		*  Parameter: DataBase Name, DB Password, DB UserID, DB Host
+		*  return bool
+		*/
 		public function connect($db,$pass,$user,$host);
+		/*Check if user and password excess
+		*  Parameter: User UserID, User Password
+		*  return bool
+		*/
 		public function login($user,$pass);
+		/*create a new user
+		*  Parameter: User UserID, User Password, User Email
+		*  return bool
+		*/
 		public function register($user,$pass,$email);
+		//close the DataBase Connection
 		public function close();
 	}
 
 	/**
-	* 
+	* MySql DB Class
 	*/
 	class MySqlDB implements DBInterface
 	{
@@ -64,7 +77,7 @@
    }
 
    /**
-   * 
+   * SQLite3 DB CLass
    */
    class SqlLiteDB implements DBInterface
    {
@@ -102,7 +115,7 @@
    }
 	
 	/**
-	* 
+	* PQSQL DB Class
 	*/
 	class PSql implements DBInterface
 	{
