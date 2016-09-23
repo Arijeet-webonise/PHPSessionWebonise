@@ -100,6 +100,15 @@
 			return true;
 		}
 
+		public function getdata($table,$fields,$where=null){
+			$sql = "SELECT $fields FROM $table";
+			if($where==null){
+				$sql=$sql." where $where";
+			}
+			$ret = $db->query($sql);
+			return $ret;
+		}
+
 		function close(){
 			$this->db->close();
 		}
@@ -136,6 +145,15 @@
 				return false;
 			} 
 			return true;
+		}
+
+		public function getdata($table,$fields,$where=null){
+			$sql = "SELECT $fields FROM $table";
+			if(!$ret){
+				throw new Exception("<br>".pg_last_error($this->pdb), 1);;
+				return false;
+			} 
+			return $ret;
 		}
 
 		function close(){
