@@ -1,4 +1,5 @@
 <?php
+session_start();
 	interface DBInterface{
 		/*Connects to DataBase
 		*  Parameter: DataBase Name, DB Password, DB UserID, DB Host
@@ -58,7 +59,8 @@
 			$sql = "SELECT User FROM users WHERE User='$user' AND password=md5('$pass');";
 	
 			if ($this->conn->query($sql) === TRUE) {
-				setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+				$_SESSION['USER']=$user;
+				header("Location: adminpage.php");
 			    return true;
 			} else {
 			    throw new Exception($this->conn->error, 1);
@@ -131,7 +133,7 @@
 			$ret = $this->db->query($sql);
 			// var_dump($ret->fetchArray(SQLITE3_ASSOC));
 			if ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
-			    setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+			    $_SESSION['USER']=$user;
 			    return $user;
 			} else {
 			    return false;
@@ -205,7 +207,7 @@
 				return false;
 			} 
 			while($row = pg_fetch_row($ret)){
-				setcookie('user', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+				$_SESSION['USER']=$user;
 		   		return true;
 		   }
 		   throw new Exception("User Not Found", 1);
