@@ -10,6 +10,11 @@
 		*  return bool
 		*/
 		public function insertdata($table,$fields,$data);
+		/*Check if user and password excess
+		*  Parameter: User UserID, User Password
+		*  return bool
+		*/
+		// public function getdata($table,$fields,$data);
 		public function close();
 	}
 	/**
@@ -44,6 +49,21 @@
 			    return true;
 			throw new Exception($sql . "<br>" . $this->conn->error, 1);
 		}
+		public function getdata($table,$fields,$where=null){
+			$sql = "SELECT $fields FROM $table";
+			if($where==null){
+				$sql=$sql." where $where";
+			}
+			$result = $conn->query($sql);
+
+			if ($result->num_rows > 0) {
+				// output data of each row
+				return $result;
+			} else {
+				throw new Exception($sql."<br> No Data Found", 1);
+				return false;
+			}
+		}
 		function close(){
 			$this->conn->close();
 		}
@@ -76,6 +96,7 @@
 			if(!$ret){
 				throw new Exception($sql."<br>".$this->db->lastErrorMsg());
 				return false;
+			}
 			return true;
 		}
 

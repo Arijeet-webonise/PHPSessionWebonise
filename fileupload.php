@@ -3,6 +3,8 @@
 		public function checksize();
 		public function checkext();
 		public function checkfile();
+		public function getaddress();
+		public function getFileType();
 	}
 	/**
 	* image uploader class
@@ -14,12 +16,14 @@
 		private $imageFileType;
 		private $file;
 		private $ext;
+		private $info;
 		public function __construct($file)
 		{
 			$this->file=$file;
 			$this->target_dir='uploads/';
 			$this->target_file = $this->target_dir . basename($this->file["name"]);
 			$this->imageFileType=pathinfo($this->target_file,PATHINFO_EXTENSION);
+			$this->info=getimagesize($file["tmp_name"]);
 			$this->ext=array('png','jpg','jpeg');
 		}
 		/*
@@ -37,8 +41,7 @@
 		*	Checks image Dimension
 		*/
 		public function checkdimen(){
-			$info=getimagesize($this->file["tmp_name"]);
-			if($info[0]>400&&$info[1]>400){
+			if($this->info[0]>400&&$this->info[1]>400){
 				throw new Exception("Image must be smaller them 400 x 400", 1);
 				return false;
 			}
@@ -75,6 +78,12 @@
 					throw new Exception("Sorry, there was an error uploading your file.", 1);
 				}
 			}
+		}
+		function getaddress(){
+			return $this->target_file;
+		}
+		function getFileType(){
+			return $this->imageFileType;
 		}
 	}
 
@@ -140,6 +149,12 @@
 				}
 			}
 		}
+		function getaddress(){
+			return $this->target_file;
+		}
+		function getFileType(){
+			return $this->imageFileType;
+		}
 	}
 
 	/**
@@ -204,6 +219,12 @@
 					throw new Exception("Sorry, there was an error uploading your file.", 1);
 				}
 			}
+		}
+		function getaddress(){
+			return $this->target_file;
+		}
+		function getFileType(){
+			return $this->imageFileType;
 		}
 	}
 ?>
