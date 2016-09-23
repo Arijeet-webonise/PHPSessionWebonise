@@ -15,6 +15,8 @@
 		*  return bool
 		*/
 		public function register($user,$pass,$email);
+		public function insertdata($table,$fields,$data);
+		public function getdata($table,$fields,$where);
 		//close the DataBase Connection
 		public function close();
 	}
@@ -63,6 +65,32 @@
 			    return false;
 			}
 		}
+
+		public function insertdata($table,$fields,$data)
+		{
+			$sql = "INSERT INTO $table ($fields)
+			VALUES ($data)";
+
+			if ($this->conn->query($sql) === TRUE) 
+			    return true;
+			throw new Exception($sql . "<br>" . $this->conn->error, 1);
+		}
+		public function getdata($table,$fields,$where=null){
+			$sql = "SELECT $fields FROM $table";
+			if($where==null){
+				$sql=$sql." where $where";
+			}
+			$result = $conn->query($sql);
+
+			if ($result->num_rows > 0) {
+				// output data of each row
+				return $result;
+			} else {
+				throw new Exception($sql."<br> No Data Found", 1);
+				return false;
+			}
+		}
+
 		function close(){
 			$this->conn->close();
 		}
@@ -109,6 +137,28 @@
 			    return false;
 			}
 		}
+
+		public function insertdata($table,$fields,$data)
+		{
+			$sql = "INSERT INTO $table ($fields)
+			VALUES ($data)";
+			$ret = $db->exec($sql);
+			if(!$ret){
+				throw new Exception($sql."<br>".$this->db->lastErrorMsg());
+				return false;
+			}
+			return true;
+		}
+
+		public function getdata($table,$fields,$where=null){
+			$sql = "SELECT $fields FROM $table";
+			if($where==null){
+				$sql=$sql." where $where";
+			}
+			$ret = $db->query($sql);
+			return $ret;
+		}
+
 		function close(){
 			$this->db->close();
 		}
@@ -161,6 +211,28 @@
 		   throw new Exception("User Not Found", 1);
 		   return false;
 		}
+
+		public function insertdata($table,$fields,$data)
+		{
+			$sql = "INSERT INTO $table ($fields)
+			VALUES ($data)";
+			$ret = pg_query($this->pdb, $sql);
+			if(!$ret){
+				throw new Exception($sql."<br>".pg_last_error($this->pdb));
+				return false;
+			} 
+			return true;
+		}
+
+		public function getdata($table,$fields,$where=null){
+			$sql = "SELECT $fields FROM $table";
+			if(!$ret){
+				throw new Exception("<br>".pg_last_error($this->pdb), 1);;
+				return false;
+			} 
+			return $ret;
+		}
+
 		function close(){
 			pg_close($this->pdb);
 		}
