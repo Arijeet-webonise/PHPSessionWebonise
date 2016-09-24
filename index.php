@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-	<form action="server.php" method="post" enctype="multipart/form-data" class="well container">
+	<form action="curl.php" method="post" enctype="multipart/form-data" class="well container">
 		<div class="form-group">
 			<label for="name">Uploader Name:</label>
 			<input type="text" class="form-control" name="name" id="name">
