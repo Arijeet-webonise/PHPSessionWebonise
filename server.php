@@ -8,10 +8,24 @@ function saveuser($sql,$name,$email){
 	return $id;
 }
 function uploadfile($id,$sql,$type){
-	upload(new ImageUploader($_FILES[$type]),$sql,$id);
-	$num=(int)$_REQUEST['imgnum'];
-	for ($i=1; $i <=$num ; $i++) { 
-		upload(new ImageUploader($_FILES[$type.$i]),$sql,$id);
+	if($type=="image"){
+		upload(new ImageUploader($_FILES[$type]),$sql,$id);
+		$num=(int)$_REQUEST[$image.'num'];
+		for ($i=1; $i <=$num ; $i++) { 
+			upload(new ImageUploader($_FILES[$type.$i]),$sql,$id);
+		}
+	}else if($type=="xls"){
+		upload(new XlsUploader($_FILES[$type]),$sql,$id);
+		$num=(int)$_REQUEST[$image.'num'];
+		for ($i=1; $i <=$num ; $i++) { 
+			upload(new XlsUploader($_FILES[$type.$i]),$sql,$id);
+		}
+	}else if($type=="csv"){
+		upload(new CSVUploader($_FILES[$type]),$sql,$id);
+		$num=(int)$_REQUEST[$image.'num'];
+		for ($i=1; $i <=$num ; $i++) { 
+			upload(new CSVUploader($_FILES[$type.$i]),$sql,$id);
+		}
 	}
 }
 function upload($uploader,$sql,$id){

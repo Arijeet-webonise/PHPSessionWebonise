@@ -20,7 +20,7 @@
 		<div class="form-group">
 			<label for="image">Image:</label>
 			<div class="btn addform" id="img-add">+</div>
-			<input type="hidden" name="imgnum" class="num" value="0">
+			<input type="hidden" name="imagenum" class="num" value="0">
 			<div id="imagediv">
 				<input type="file" class="form-control" name="image" id="image">
 			</div>

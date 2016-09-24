@@ -139,7 +139,7 @@
 			return true;
 		}
 		function upload(){
-			if (!($this->checksize()&&$this->checkdimen()&&$this->checkext())) {
+			if (!($this->checksize()&&$this->checkext())) {
 				throw new Exception("Sorry, your file was not uploaded.", 1);
 			} else {
 				if (move_uploaded_file($this->file["tmp_name"], $this->target_file)) {
