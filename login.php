@@ -2,26 +2,19 @@
 require_once("sql.php");
 function getuser(){
 	try{
-		if(isset($_COOKEE['user']))
-			return $_COOKEE['user'];
+		if(isset($_SESSION['USER_COOKIE']))
+			return $_SESSION['USER'];
 		else{
 			$user;
 			$db;
-			if($_REQUEST['db']=='mysql'){
 				$db=new MySqlDB();
 				$db->connect('phpsession','','root');
-			}else if($_REQUEST['db']=='sqlite3'){
-				$db = new SqlLiteDB();
-				$db->connect('C:\sqlite\testDB.db');
-			}else if($_REQUEST['db']=='psql'){
-				$db=new PSql();
-				$db->connect("dbname=testdb","1902Anchit1@3","postgres");
-			}
 			if(isset($_REQUEST['user'])&&isset($_REQUEST['pwd'])){
 				$user=$db->login($_REQUEST['user'],$_REQUEST['pwd']);
 				if ($user==false) {
 				    header("Location:incorrect.php");
 				}
+				header("Location:adminpage.php");
 			}else{
 					header("Location:incorrect.php");
 			}

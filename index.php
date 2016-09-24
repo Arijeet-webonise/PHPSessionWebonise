@@ -17,13 +17,6 @@
 			<label for="pwd">Password:</label>
 			<input type="password" class="form-control" name="pwd" id="pwd">
 		</div>
-		<div class="form-group">
-			<select name="db" class="form-control">
-				<option value="mysql">mysql</option>
-				<option value="sqlite3">sqlite3</option>
-				<option value="psql">psql</option>
-			</select>
-		</div>
 		<button type="submit" class="btn btn-default">Submit</button>
 	</form>
 </div>

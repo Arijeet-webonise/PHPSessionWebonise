@@ -79,10 +79,10 @@ session_start();
 		}
 		public function getdata($table,$fields,$where=null){
 			$sql = "SELECT $fields FROM $table";
-			if($where==null){
+			if($where!=null){
 				$sql=$sql." where $where";
 			}
-			$result = $conn->query($sql);
+			$result = $this->conn->query($sql);
 
 			if ($result->num_rows > 0) {
 				// output data of each row
