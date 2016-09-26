@@ -19,4 +19,5 @@ $(document).ready(function(){
 			$("input[type=file]").val('');
 		}
 	});
+	$("#userform").validate();
 });

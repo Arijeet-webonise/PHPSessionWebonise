@@ -36,6 +36,9 @@ if(isset($_REQUEST['name'])&&isset($_REQUEST['email'])){
 	try{
 		$sql=new MySqlDB();
 		$sql->connect('phpsession','','root');
+		if(!(isset($_REQUEST['name'])&&isset($_REQUEST['email']))){
+			throw new Exception("Enter Name and Email", 1);
+		}
 		$id=saveuser($sql,$_REQUEST['name'],$_REQUEST['email']);
 		foreach ($types as $type) {
 			if(isset($_FILES[$type]))
