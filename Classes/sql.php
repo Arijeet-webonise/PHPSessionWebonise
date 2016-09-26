@@ -251,4 +251,33 @@ session_start();
 			pg_close($this->pdb);
 		}
 	}
+
+	/**
+	* SQL factory
+	*/
+	class SQLFactory
+	{
+		
+		public static function create($type)
+		{
+			switch ($type) {
+				case "MySql":
+					return new MySqlDB();
+					break;
+
+				case "Sqlite3":
+					return new SqlLiteDB();
+					break;
+
+				case "PQSql":
+					return new PSql();
+					break;
+				
+				default:
+					throw new Exception("Can't Find File Type", 1);
+					return false;
+					break;
+			}
+		}
+	}
 ?>

@@ -1,11 +1,11 @@
 <?php
 include('templete/header.php');
 try{
-	$db=new MySqlDB();
+	$db=SQLFactory::create("MySql");
 	$db->connect('phpsession','','root');
 	$ret=$db->insertdata('product',"pname, price, desp","'".$_REQUEST['pname']."',".$_REQUEST['price'].",'".$_REQUEST['Description']."'");
 	if(isset($_FILES['image'])){
-		$image=new ImageUploader($_FILES['image']);
+		$image=FileUploadFactory::create('img',$_FILES['image']);
 		$image->upload();
 		$db->updatedata('product','image="'.$image->getaddress().'"');
 	}

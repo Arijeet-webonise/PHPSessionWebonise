@@ -227,4 +227,33 @@
 			return $this->imageFileType;
 		}
 	}
+
+	/**
+	* FileUpload factory
+	*/
+	class FileUploadFactory 
+	{
+		
+		public static function create($type,$file)
+		{
+			switch ($type) {
+				case 'img':
+					return new ImageUploader($file);
+					break;
+
+				case 'xls':
+					return new XlsUploader($file);
+					break;
+
+				case 'csv':
+					return new CSVUploader($file);
+					break;
+				
+				default:
+					throw new Exception("Can't Find File Type", 1);
+					return false;
+					break;
+			}
+		}
+	}
 ?>

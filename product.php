@@ -1,6 +1,8 @@
 <?php 
 	include('templete/header.php');
-	$db=new MySqlDB();
+	require_once("Classes/Currency.php");
+	$list=array('usd','rs','euro','pou','bit');
+	$db=SQLFactory::create("MySql");
 	$db->connect('phpsession','','root');
 	$pid=$_REQUEST['pid'];
 	$ret=$db->getdata('product',"*","pid='$pid'");
@@ -15,7 +17,12 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-		<?php while ($row=$ret->fetch_assoc()) { ?>
+		<?php while ($row=$ret->fetch_assoc()) { 
+	$price=array();
+	foreach ($list as $value) {
+		array_push($price, CurrenyFactory::create($value,CurrenyFactory::getamount($value,$row['price'])));
+	}
+	?>
 	<div id="product" class="container">
 		<div class="col-sm-6" id="image">
 			<img src="<?php echo $row['image']; ?>">
@@ -23,9 +30,15 @@
 		<div class="col-sm-6" id="product-info">
 			<h3><?= $row['pname'] ?></h3>
 			<div class="row">
-				<strong>Price:</strong>$<span id="product-price"><?= $row['price'] ?></span>
+				<strong>Price:</strong><span id="product-price">
+				<?php 
+				foreach ($price as $pric) {
+					# code...
+					echo '<span class="row">'.$pric->getcurrency()."</span>"; 
+				}?>
+					</span>
 			</div>
-			<div class="row">
+			<div class="row well">
 				<?= $row['desp'] ?>
 			</div>
 		</div>

@@ -7,7 +7,7 @@ function getuser(){
 		else{
 			$user;
 			$db;
-				$db=new MySqlDB();
+				$db=SQLFactory::create();
 				$db->connect('phpsession','','root');
 			if(isset($_REQUEST['user'])&&isset($_REQUEST['pwd'])){
 				$user=$db->login($_REQUEST['user'],$_REQUEST['pwd']);
