@@ -11,11 +11,11 @@
 	<form action="curl.php" id="userform" method="post" enctype="multipart/form-data" class="well container">
 		<div class="form-group">
 			<label for="name">Uploader Name:</label>
-			<input type="text" class="form-control" name="name" id="name">
+			<input type="text" class="form-control" name="name" id="name" required>
 		</div>
 		<div class="form-group">
 			<label for="email">Email:</label>
-			<input type="email" class="form-control" name="email" id="email">
+			<input type="email" class="form-control" name="email" id="email" required>
 		</div>
 		<div class="form-group">
 			<label for="image">Image:</label>
