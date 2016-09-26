@@ -18,4 +18,4 @@
 	</form>
 </div>
 
-<?php include('templete/header.php'); ?>
+<?php include('templete/footer.php'); ?>
