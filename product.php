@@ -1,5 +1,5 @@
 <?php 
-	require_once("sql.php");
+	include('templete/header.php');
 	$db=new MySqlDB();
 	$db->connect('phpsession','','root');
 	$pid=$_REQUEST['pid'];
@@ -18,7 +18,7 @@
 		<?php while ($row=$ret->fetch_assoc()) { ?>
 	<div id="product" class="container">
 		<div class="col-sm-6" id="image">
-			<img src="image/<?php echo $row['image']; ?>">
+			<img src="<?php echo $row['image']; ?>">
 		</div>
 		<div class="col-sm-6" id="product-info">
 			<h3><?= $row['pname'] ?></h3>
@@ -31,5 +31,4 @@
 		</div>
 	</div>
 			<?php  }  ?>
-</body>
-</html>
+<?php include('templete/footer.php'); ?>

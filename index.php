@@ -1,24 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Login Form</title>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
+<?php include('templete/header.php'); ?>
+
 <div class="container">
-	<form action="login.php" method="post">
-		<div class="form-group">
-			<label for="user">UserName:</label>
-			<input type="text" class="form-control" name="user" id="user">
+<?php 
+try{
+	$db=new MySqlDB();
+	$db->connect('phpsession','','root');
+	$ret=$db->getdata('product',"*");
+	while ($row=$ret->fetch_assoc()) { 
+?>
+	<div class="well col-sm-4 preview">
+		<div class="imagepre">
+			<img src="<?= $row['image'] ?>">
 		</div>
-		<div class="form-group">
-			<label for="pwd">Password:</label>
-			<input type="password" class="form-control" name="pwd" id="pwd">
-		</div>
-		<button type="submit" class="btn btn-default">Submit</button>
-	</form>
+		<h4 class="pname"><?= $row['pname'] ?></h4>
+		<a href="product.php?pid=<?= $row['pid'] ?>" class="btn btn-info">Show</a>
+	</div>
 </div>
-</body>
-</html>
+<?php 
+	}
+}catch(Exception $e){
+	echo "Error".$e->getMessage();
+}
+?>
+<?php include('templete/footer.php'); ?>

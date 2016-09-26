@@ -1,12 +1,9 @@
 <?php
-	setcookie("user", "", time() - 3600);
-?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Logout</title>
-</head>
-<body>
+	include('templete/header.php'); 
+		session_unset(); 
+		session_destroy(); 
+	?>
+
 You Have Logout
-</body>
-</html>
+
+<?php include('templete/footer.php'); ?>

@@ -1,24 +1,24 @@
 <?php
-require_once('sql.php');
-$db=new MySqlDB();
-$db->connect('phpsession','','root');
-$ret=$db->insertdata('product',"pname, price, desp","'".$_REQUEST['pname']."','".$_REQUEST['price']."','".$_REQUEST['Description']."'");
-$ret=$db->getdata('product',"*","pname='".$_REQUEST['pname']."'");
+include('templete/header.php');
+try{
+	$db=new MySqlDB();
+	$db->connect('phpsession','','root');
+	$ret=$db->insertdata('product',"pname, price, desp","'".$_REQUEST['pname']."',".$_REQUEST['price'].",'".$_REQUEST['Description']."'");
+	if(isset($_FILES['image'])){
+		$image=new ImageUploader($_FILES['image']);
+		$image->upload();
+		$db->updatedata('product','image="'.$image->getaddress().'"');
+	}
+	$ret=$db->getdata('product',"*","pname='".$_REQUEST['pname']."'");
+}catch(Exception $e){
+	echo "Error:".$e;
+}
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Product Upload</title>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/main.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-		<?php while ($row=$ret->fetch_assoc()) { ?>
-	<div id="product" class="container">
+
+	<?php while ($row=$ret->fetch_assoc()) { ?>
+	<div id="product" class="container well">
 		<div class="col-sm-6" id="image">
-			<img src="image/<?php echo $row['image']; ?>">
+			<img src="<?php echo $image->getaddress(); ?>">
 		</div>
 		<div class="col-sm-6" id="product-info">
 			<h3><?= $row['pname'] ?></h3>
@@ -31,5 +31,5 @@ $ret=$db->getdata('product',"*","pname='".$_REQUEST['pname']."'");
 		</div>
 	</div>
 			<?php  }  ?>
-</body>
-</html>
+
+<?php include('templete/footer.php'); ?>

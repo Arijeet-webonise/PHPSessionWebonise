@@ -56,11 +56,11 @@ session_start();
 			}
 		}
 		function login($user,$pass){
-			$sql = "SELECT User FROM users WHERE User='$user' AND password=md5('$pass');";
-	
-			if ($this->conn->query($sql) === TRUE) {
+			$sql = 'SELECT User FROM `users` WHERE User="'.$user.'" AND password=md5("'.$pass.'");';
+			$ret=$this->conn->query($sql);
+			if ($ret->num_rows>0) {
+			var_dump($sql);	
 				$_SESSION['USER']=$user;
-				header("Location: adminpage.php");
 			    return true;
 			} else {
 			    throw new Exception($this->conn->error, 1);
@@ -90,6 +90,18 @@ session_start();
 			} else {
 				throw new Exception($sql."<br> No Data Found", 1);
 				return false;
+			}
+		}
+		public function updatedata($table,$change,$where=null){
+			$sql = "UPDATE $table SET $change";
+			if($where!=null){
+				$sql.="WHERE $where";
+			}
+
+			if ($this->conn->query($sql) === TRUE) {
+			    return true;
+			} else {
+			    throw new Exception($sql . $this->conn->error);
 			}
 		}
 

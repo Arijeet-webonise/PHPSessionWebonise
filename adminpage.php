@@ -1,17 +1,14 @@
-<!-- <?php
-$user=$_SESSION['USER'];
-?> -->
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Product Upload</title>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
+<?php
+include('templete/header.php'); 
+if($_SESSION['USER']&&$_SESSION['USER']=='admin'){
+	$user=$_SESSION['USER'];
+}else{
+	header("location:index.php");
+}
+?>
+
 	<div class="container">
-		<form class="well" action="addProduct.php" method="post">
+		<form class="well" action="curl.php" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="pname">Product:</label>
 				<input type="text" class="form-control" name="pname" id="pname">
@@ -24,10 +21,14 @@ $user=$_SESSION['USER'];
 				<label for="Description">Product Description:</label>
 				<textarea class="form-control" name="Description" id="Description" rows="5"></textarea>
 			</div>
+			<div class="form-group">
+				<label for="image">Product image:</label>
+				<input type="file" class="form-control" name="image" id="image">
+			</div>
 			<div class="btn-group">
 				<button type="Submit" class="btn btn-primary">Submit</button>
 			</div>
 		</form>
 	</div>
-</body>
-</html>
+
+<?php include('templete/footer.php'); ?>
