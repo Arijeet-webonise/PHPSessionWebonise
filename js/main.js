@@ -10,4 +10,13 @@ $(document).ready(function(){
 			$("#"+e.toElement.id).siblings("div").after('<input type="file" class="form-control" name="'+name+num+'" id="'+image+num+'">');
 		}
 	});
+	$("#cancel").click(function(e){
+		e.preventDefault();
+		var confirmation = confirm("Are You Sure!");
+		if(confirmation){
+			$("input[type=text]").val('');
+			$("input[type=email]").val('');
+			$("input[type=file]").val('');
+		}
+	});
 });
