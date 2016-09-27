@@ -63,4 +63,4 @@ function delete($db,$cart){
 	}
 ?>
 
-<?php require_once("template/header.php"); ?>
+<?php require_once("template/footer.php"); ?>
