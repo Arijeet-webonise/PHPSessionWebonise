@@ -32,6 +32,7 @@ function delete($db,$cart){
 	$ret=$db->deletedata("cart","productid=".$_REQUEST['pid']);
 
 	unset($cart[$_REQUEST['pid']]);
+	fetch($db,$cart);
 }
 	if(isset($_REQUEST["method"]))
 		$method=$_REQUEST["method"];
