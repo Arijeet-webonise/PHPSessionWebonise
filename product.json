@@ -1,0 +1,7 @@
+{
+	"products":[
+		{"id":1,"name":"Pen", "Price":1234},
+		{"id":2,"name":"Legend Of Zelda", "Price":2414},
+		{"id":3,"name":"Pokemon Sun", "Price":4134}
+	]
+}
