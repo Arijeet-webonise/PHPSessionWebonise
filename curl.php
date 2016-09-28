@@ -1,29 +1,53 @@
 <?php
-$list=array('image');
-$ch=curl_init();
 
-$data=array(
-    'pname' => $_REQUEST['pname'],
-    'price' => $_REQUEST['price'],
-    'Description' => $_REQUEST['Description'],
-);
-foreach ($list as $item) {
-	if(isset($_FILES[$item]['tmp_name'])&&$_FILES[$item]['tmp_name']!=''){
-		$ifile=new CURLFILE($_FILES[$item]['tmp_name'], $_FILES[$item]['type'], $_FILES[$item]['name']);
-		$data[$item]=$ifile;
+/**
+* curlFacade
+*/
+class curlFacade
+{
+	private $list;
+	private $data;
+	private $ch;
+	function __construct()
+	{
+		$this->data=array(
+		    'pname' => $_REQUEST['pname'],
+		    'price' => $_REQUEST['price'],
+		    'Description' => $_REQUEST['Description'],
+		);
+		$this->list=array('image');
+		$this->ch=curl_init();
+	}
+
+	function filecurladd(){
+		foreach ($this->list as $item) {
+			if(isset($_FILES[$item]['tmp_name'])&&$_FILES[$item]['tmp_name']!=''){
+				$ifile=new CURLFILE($_FILES[$item]['tmp_name'], $_FILES[$item]['type'], $_FILES[$item]['name']);
+				$this->data[$item]=$ifile;
+			}
+		}
+	}
+
+	function setoptfunction(){
+		curl_setopt($this->ch, CURLOPT_URL, "local.testcode.com/addProduct.php");
+		curl_setopt($this->ch, CURLOPT_POST, true);
+		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->data);
+	}
+
+	function curlresponce(){
+		$responce=curl_exec($this->ch);
+
+		if($responce){
+		    return $responce;
+		}else{
+			return 'Error:' . curl_error($this->ch);
+		}
 	}
 }
 
+$curl=new curlFacade();
+$curl->filecurladd();
+$curl->setoptfunction();
 
-curl_setopt($ch, CURLOPT_URL, "local.testcode.com/addProduct.php");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-$responce=curl_exec($ch);
-
-if($responce){
-    echo $responce;
-}else{
-	echo 'Error:' . curl_error($ch);
-}
+echo curlresponce();
 ?>
