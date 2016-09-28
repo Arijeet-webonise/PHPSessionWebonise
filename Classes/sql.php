@@ -258,26 +258,17 @@ session_start();
 	class SQLFactory
 	{
 		
-		public static function create($type)
+		public static function createMySql()
 		{
-			switch ($type) {
-				case "MySql":
-					return new MySqlDB();
-					break;
-
-				case "Sqlite3":
-					return new SqlLiteDB();
-					break;
-
-				case "PQSql":
-					return new PSql();
-					break;
-				
-				default:
-					throw new Exception("Can't Find File Type", 1);
-					return false;
-					break;
-			}
+			return new MySqlDB();
+		}
+		public static function createSqlLite()
+		{
+			return new SqlLiteDB();
+		}
+		public static function createPQSQL()
+		{
+			return new PSql();
 		}
 	}
 ?>

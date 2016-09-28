@@ -3,7 +3,7 @@
 <div class="container">
 <?php 
 try{
-	$db=SQLFactory::create("MySql");
+	$db=SQLFactory::createMySql("MySql");
 	$db->connect('phpsession','','root');
 	$ret=$db->getdata('product',"*");
 	while ($row=$ret->fetch_assoc()) { 

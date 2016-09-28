@@ -1,7 +1,7 @@
 <?php
 include('templete/header.php');
 try{
-	$db=SQLFactory::create("MySql");
+	$db=SQLFactory::createMySql("MySql");
 	$db->connect('phpsession','','root');
 	$ret=$db->insertdata('product',"pname, price, desp","'".$_REQUEST['pname']."',".$_REQUEST['price'].",'".$_REQUEST['Description']."'");
 	if(isset($_FILES['image'])){

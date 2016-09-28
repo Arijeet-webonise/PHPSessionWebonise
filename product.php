@@ -2,7 +2,7 @@
 	include('templete/header.php');
 	require_once("Classes/Currency.php");
 	$list=array('usd','rs','euro','pou','bit');
-	$db=SQLFactory::create("MySql");
+	$db=SQLFactory::createMySql("MySql");
 	$db->connect('phpsession','','root');
 	$pid=$_REQUEST['pid'];
 	$ret=$db->getdata('product',"*","pid='$pid'");
