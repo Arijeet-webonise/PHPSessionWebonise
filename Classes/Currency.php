@@ -1,11 +1,11 @@
 <?php
-	interface currencyobserver{
+	interface CurrencyObserver{
 		public function getcurrency();
 	}
 	/**
 	* Rupees Object
 	*/
-	class Rupees implements currencyobserver
+	class Rupees implements CurrencyObserver
 	{
 		private $amount;
 		function __construct($money)
@@ -28,7 +28,7 @@
 	/**
 	* Doller Object
 	*/
-	class doller implements currencyobserver
+	class doller implements CurrencyObserver
 	{
 		private $amount;
 		function __construct($money)
@@ -51,7 +51,7 @@
 	/**
 	* Euro Object
 	*/
-	class Euro implements currencyobserver
+	class Euro implements CurrencyObserver
 	{
 		private $amount;
 		function __construct($money)
@@ -74,7 +74,7 @@
 	/**
 	* Pound Object
 	*/
-	class Pound implements currencyobserver
+	class Pound implements CurrencyObserver
 	{
 		private $amount;
 		function __construct($money)
@@ -97,7 +97,7 @@
 	/**
 	* Bitcoin Object
 	*/
-	class Bitcoin implements currencyobserver
+	class Bitcoin implements CurrencyObserver
 	{
 		private $amount;
 		function __construct($money)
