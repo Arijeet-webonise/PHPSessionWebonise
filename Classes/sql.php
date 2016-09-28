@@ -38,9 +38,7 @@ session_start();
 			$this->username=$user;
 			$this->password=$pass;
 			$this->dbname=$db;
-			// Create connection
 			$this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
-			// Check connection
 			if ($this->conn->connect_error) {
 			    throw new Exception("Connection failed: " . $conn->connect_error, 1);
 			    return false;
@@ -89,7 +87,6 @@ session_start();
 			$result = $this->conn->query($sql);
 
 			if ($result->num_rows > 0) {
-				// output data of each row
 				return $result;
 			} else {
 				throw new Exception($sql."<br> No Data Found", 1);
@@ -153,7 +150,6 @@ session_start();
 		function login($user,$pass){
 			$sql="SELECT user FROM users WHERE user='".$user."' AND password='".$pass."'";
 			$ret = $this->db->query($sql);
-			// var_dump($ret->fetchArray(SQLITE3_ASSOC));
 			if ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
 			    $_SESSION['USER']=$user;
 			    return $user;

@@ -1,6 +1,11 @@
 <?php require_once("template/header.php"); ?>
 
 <?php
+/*
+*	updates cart
+*	Paramenter: DataBase Object, Cart Object, $product id
+*	Return Boolean
+*/
 function update($db, $cart,$pid){
 	if(isset($_REQUEST['quantity']))
 		$value=$_REQUEST['quantity'];
@@ -11,6 +16,11 @@ function update($db, $cart,$pid){
 	return $ret;
 }
 
+/*
+*	fetch cart list
+*	Paramenter: DataBase Object, Cart Object
+*	Return Boolean
+*/
 function fetch($db,$cart){
 	$ret=$db->getdata("cart","productid,quantity");
 	if ($ret->num_rows > 0) {
@@ -27,6 +37,11 @@ function fetch($db,$cart){
 	}
 }
 
+/*
+*	Delete Product from cart
+*	Paramenter: DataBase Object, Cart Object, product id
+*	Return Boolean
+*/
 function delete($db,$cart,$pid){
 	$ret=$db->deletedata("cart","productid=".$pid);
 
@@ -35,6 +50,11 @@ function delete($db,$cart,$pid){
 	return $ret;
 }
 
+/*
+*	save product from cart to database
+*	Paramenter: DataBase Object, Cart Object
+*	Return Boolean
+*/
 function checkout($db,$cart){
 	$a=true;
 	foreach ($cart as $product) {
@@ -44,6 +64,11 @@ function checkout($db,$cart){
 	}
 	return $a;
 }
+/*
+*	Calls the Required function
+*	Paramenter: DataBase Object, Cart Object, Method required
+*	Return Boolean
+*/
 function method($db,$cart,$method){
 	switch ($method) {
 		case 'checkout':
@@ -68,6 +93,9 @@ function method($db,$cart,$method){
 	}
 }
 
+/*
+*	Main Function or start point
+*/
 function main(){
 
 	if(isset($_REQUEST["cart"]))
