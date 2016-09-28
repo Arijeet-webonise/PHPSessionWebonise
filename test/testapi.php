@@ -15,7 +15,7 @@
 		}
 
 	    public function connectProvider(){
-	    	return [[SQLFactory::create("MySql")]];
+	    	return [[SQLFactory::createMySql("MySql")]];
 	    }
 
 	    /**
@@ -23,7 +23,7 @@
 		*/
 		public function testcheckout($cart){
 			$a=true;
-			$db=SQLFactory::create("MySql");
+			$db=SQLFactory::createMySql("MySql");
 			$db->connect("phpsession",'','root');
 			foreach ($cart as $product) {
 				if($db->insertdata("cart","productid,quantity",$product->product_id.",".$product->Quantity)!=true){
@@ -46,7 +46,7 @@
 		*/
 	    public function testfetch($expected){
 	    	$a;
-	    	$db=SQLFactory::create("MySql");
+	    	$db=SQLFactory::createMySql("MySql");
 			$db->connect("phpsession",'','root');
 	    	$ret=$db->getdata("cart","productid,quantity");
 			if ($ret->num_rows > 0) {

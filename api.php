@@ -103,7 +103,7 @@ function main(){
 	else
 		$cart=array();
 
-	$db=SQLFactory::create("MySql");
+	$db=SQLFactory::createMySql("MySql");
 	$db->connect("phpsession",'','root');
 
 	if(isset($_REQUEST["method"]))
