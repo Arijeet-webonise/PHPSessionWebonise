@@ -43,7 +43,9 @@ session_start();
 			// Check connection
 			if ($this->conn->connect_error) {
 			    throw new Exception("Connection failed: " . $conn->connect_error, 1);
+			    return false;
 			}	
+			return true;
 		}
 		function register($user,$pass,$email){
 			$sql = "INSERT INTO users (User, password, email) VALUES ('".$user."', md5('".$pass."'), '".$email."');";
@@ -73,9 +75,11 @@ session_start();
 			$sql = "INSERT INTO $table ($fields)
 			VALUES ($data)";
 
-			if ($this->conn->query($sql) === TRUE) 
+			if ($this->conn->query($sql) === TRUE) {
 			    return true;
-			throw new Exception($sql . "<br>" . $this->conn->error, 1);
+			}
+			throw new Exception($sql  . $this->conn->error, 1);
+			return false;
 		}
 		public function getdata($table,$fields,$where=null){
 			$sql = "SELECT $fields FROM $table";
