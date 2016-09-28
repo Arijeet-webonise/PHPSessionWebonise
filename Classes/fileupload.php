@@ -1,5 +1,5 @@
 <?php
-	interface FileUpload{
+	interface FileUploadObserver{
 		public function checksize();
 		public function checkext();
 		public function checkfile();
@@ -9,7 +9,7 @@
 	/**
 	* image uploader class
 	*/
-	class ImageUploader implements FileUpload
+	class ImageUploader implements FileUploadObserver
 	{
 		private $target_dir;
 		private $target_file;
@@ -90,7 +90,7 @@
 	/**
 	* image uploader class
 	*/
-	class XlsUploader implements FileUpload
+	class XlsUploader implements FileUploadObserver
 	{
 		private $target_dir;
 		private $target_file;
@@ -160,7 +160,7 @@
 	/**
 	* CSV uploader class
 	*/
-	class CSVUploader implements FileUpload
+	class CSVUploader implements FileUploadObserver
 	{
 		private $target_dir;
 		private $target_file;

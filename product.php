@@ -18,10 +18,13 @@
 </head>
 <body>
 		<?php while ($row=$ret->fetch_assoc()) { 
-	$price=array();
-	foreach ($list as $value) {
-		array_push($price, CurrenyFactory::create($value,CurrenyFactory::getamount($value,$row['price'])));
-	}
+		$price=array(
+			'usd'=>CurrenyFactory::createdoller($row['price']),
+			'rs'=>CurrenyFactory::createRupees(Rupees::dollortoRupees($row['price'])),
+			'euro'=>CurrenyFactory::createEuro(Euro::dollortoeuro($row['price'])),
+			'pou'=>CurrenyFactory::createPound(Pound::dollortoPound($row['price'])),
+			'bit'=>CurrenyFactory::createBitcoin(Bitcoin::dollortoBitcoin($row['price']))
+		);
 	?>
 	<div id="product" class="container">
 		<div class="col-sm-6" id="image">
@@ -33,7 +36,6 @@
 				<strong>Price:</strong><span id="product-price">
 				<?php 
 				foreach ($price as $pric) {
-					# code...
 					echo '<span class="row">'.$pric->getcurrency()."</span>"; 
 				}?>
 					</span>

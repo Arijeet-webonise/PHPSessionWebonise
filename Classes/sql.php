@@ -1,6 +1,6 @@
 <?php
 session_start();
-	interface DBInterface{
+	interface DBInterfaceObserver{
 		/*Connects to DataBase
 		*  Parameter: DataBase Name, DB Password, DB UserID, DB Host
 		*  return bool
@@ -25,7 +25,7 @@ session_start();
 	/**
 	* MySql DB Class
 	*/
-	class MySqlDB implements DBInterface
+	class MySqlDB implements DBInterfaceObserver
 	{
 		private $servername;
 		private $username;
@@ -121,7 +121,7 @@ session_start();
    /**
    * SQLite3 DB CLass
    */
-   class SqlLiteDB implements DBInterface
+   class SqlLiteDB implements DBInterfaceObserver
    {
    		private $db;
    		function connect($db1,$pass=null,$user=null,$host=null){
@@ -181,7 +181,7 @@ session_start();
 	/**
 	* PQSQL DB Class
 	*/
-	class PSql implements DBInterface
+	class PSql implements DBInterfaceObserver
 	{
 		private $host;
 	   	private $port;       

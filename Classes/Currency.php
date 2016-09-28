@@ -1,54 +1,69 @@
 <?php
-	interface currency{
+	interface currencyobserver{
 		public function getcurrency();
 	}
 
 	/**
-	* 
+	* Rupees Object
 	*/
-	class Ruppees implements currency
+	class Rupees implements currencyobserver
 	{
 		private $amount;
 		function __construct($money)
 		{
 			$this->amount=$money;
 		}
+		/*
+		*	Return Amount in Rupees Format
+		*/
 		function getcurrency(){
 			return "₹".$this->amount;
 		}
-		public static function dollortoruppees($amount){
+		public static function dollortoRupees($amount){
 			return $amount/66.66;
 		}
-		public static function ruppeestodollor($amount){
+		public static function Rupeestodollor($amount){
 			return $amount*66.66;
 		}
 	}
 
-	class doller implements currency
+	/**
+	* Doller Object
+	*/
+	class doller implements currencyobserver
 	{
 		private $amount;
 		function __construct($money)
 		{
 			$this->amount=$money;
 		}
+		/*
+		*	Return Amount in doller Format
+		*/
 		function getcurrency(){
 			return "$".$this->amount;
 		}
-		public static function ruppeestodollor($amount){
+		public static function Rupeestodollor($amount){
 			return $amount*66.66;
 		}
-		public static function dollortoruppees($amount){
+		public static function dollortoRupees($amount){
 			return $amount/66.66;
 		}
 	}
 
-	class Euro implements currency
+	/**
+	* Euro Object
+	*/
+	class Euro implements currencyobserver
 	{
 		private $amount;
 		function __construct($money)
 		{
 			$this->amount=$money;
 		}
+		/*
+		*	Return Amount in Euro Format
+		*/
 		function getcurrency(){
 			return "€".$this->amount;
 		}
@@ -60,13 +75,19 @@
 		}
 	}
 
-	class Pound implements currency
+	/**
+	* Pound Object
+	*/
+	class Pound implements currencyobserver
 	{
 		private $amount;
 		function __construct($money)
 		{
 			$this->amount=$money;
 		}
+		/*
+		*	Return Amount in Pound Format
+		*/
 		function getcurrency(){
 			return "£".$this->amount;
 		}
@@ -78,13 +99,19 @@
 		}
 	}
 
-	class Bitcoin implements currency
+	/**
+	* Bitcoin Object
+	*/
+	class Bitcoin implements currencyobserver
 	{
 		private $amount;
 		function __construct($money)
 		{
 			$this->amount=$money;
 		}
+		/*
+		*	Return Amount in BitCoin Format
+		*/
 		function getcurrency(){
 			return "Ƀ".$this->amount;
 		}
@@ -102,55 +129,25 @@
 	class CurrenyFactory
 	{
 		
-		public static function create($type,$amount)
+		public static function createRupees($amount)
 		{
-			switch ($type) {
-				case 'rs':
-					return new Ruppees($amount);
-					break;
-				case 'usd':
-					return new doller($amount);
-					break;
-				case 'euro':
-					return new Euro($amount);
-					break;
-				case 'pou':
-					return new Pound($amount);
-					break;
-				case 'bit':
-					return new Bitcoin($amount);
-					break;
-				
-				default:
-					throw new Exception("Invalid Money", 1);
-					return false;
-					break;
-			}
+			return new Rupees($amount);
 		}
-
-		public static function getamount($type,$amount){
-			switch ($type) {
-				case 'rs':
-					return Ruppees::ruppeestodollor($amount);
-					break;
-				case 'usd':
-					return $amount;
-					break;
-				case 'euro':
-					return Euro::eurotodollor($amount);
-					break;
-				case 'pou':
-					return Pound::Poundtodollor($amount);
-					break;
-				case 'bit':
-					return Bitcoin::Bitcointodollor($amount);
-					break;
-				
-				default:
-					throw new Exception("Invalid Money", 1);
-					return false;
-					break;
-			}
+		public static function createdoller($amount)
+		{	
+			return new doller($amount);
+		}
+		public static function createEuro($amount)
+		{	
+			return new Euro($amount);
+		}
+		public static function createPound($amount)
+		{	
+			return new Pound($amount);
+		}
+		public static function createBitcoin($amount)
+		{	
+			return new Bitcoin($amount);
 		}
 	}
 ?>
