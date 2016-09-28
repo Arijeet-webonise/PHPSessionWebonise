@@ -19,6 +19,9 @@ class curlFacade
 		$this->ch=curl_init();
 	}
 
+	/*
+	*	push files from users to curl json
+	*/
 	function filecurladd(){
 		foreach ($this->list as $item) {
 			if(isset($_FILES[$item]['tmp_name'])&&$_FILES[$item]['tmp_name']!=''){
@@ -27,13 +30,17 @@ class curlFacade
 			}
 		}
 	}
-
+	/*
+	*	Setup Curl Options URL,POST and POST_Fields
+	*/
 	function setoptfunction(){
 		curl_setopt($this->ch, CURLOPT_URL, "local.testcode.com/addProduct.php");
 		curl_setopt($this->ch, CURLOPT_POST, true);
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->data);
 	}
-
+	/*
+	*	Returns API
+	*/
 	function curlresponce(){
 		$responce=curl_exec($this->ch);
 
