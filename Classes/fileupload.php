@@ -234,26 +234,17 @@
 	class FileUploadFactory 
 	{
 		
-		public static function create($type,$file)
+		public static function createImageUploader($file)
 		{
-			switch ($type) {
-				case 'img':
-					return new ImageUploader($file);
-					break;
-
-				case 'xls':
-					return new XlsUploader($file);
-					break;
-
-				case 'csv':
-					return new CSVUploader($file);
-					break;
-				
-				default:
-					throw new Exception("Can't Find File Type", 1);
-					return false;
-					break;
-			}
+			return new ImageUploader($file);
+		}
+		public static function createXlsUploader($file)
+		{
+			return new XlsUploader($file);
+		}
+		public static function createCSVUploader($file)
+		{
+			return new CSVUploader($file);
 		}
 	}
 ?>
